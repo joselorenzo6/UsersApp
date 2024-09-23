@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name= "toolbar_title">Users</string>
+    <string name= "toolbar_title_user">User %1$s</string>
+    <string name= "user_name">Name: %1$s</string>
+    <string name= "user_country">Country: %1$s</string>
+    <string name= "user_address">Address: %1$s</string>
+    <string name= "user_age">Age: %1$s</string>
+
+</resources>
