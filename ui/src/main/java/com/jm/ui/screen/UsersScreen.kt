@@ -16,11 +16,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -32,15 +33,20 @@ import com.jm.domain.model.User
 import com.jm.ui.model.UserState
 import com.jm.ui.viewmodel.UsersViewmodel
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.jm.ui.R
 import com.jm.ui.navigation.AppNavigation
+import com.jm.ui.screen.LoaderComponent
 import com.jm.ui.screen.ToolbarComponent
 
 @Composable
 fun UserList(navController: NavHostController, viewmodel: UsersViewmodel) {
     val users = remember { mutableStateListOf<User>() }
-    val userState by viewmodel.users.observeAsState()
+    val userState by viewmodel.users.collectAsStateWithLifecycle()
+    var showLoader by remember { mutableStateOf(true) }
+
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { ToolbarComponent() }) { innerPadding ->
@@ -54,15 +60,19 @@ fun UserList(navController: NavHostController, viewmodel: UsersViewmodel) {
                         users.any { it.email == newUser.email }
                     }
                     users.addAll(uniqueUsers)
+                    showLoader = false
                 }
-                is UserState.Loading ->{
-                    //show loader
+
+                is UserState.Loading -> {
+                    showLoader = true
                 }
+
                 else -> {
-                    //show error msg
+                    showLoader = false
                 }
             }
         }
+
 
         LazyColumn(
             modifier = Modifier
@@ -72,7 +82,9 @@ fun UserList(navController: NavHostController, viewmodel: UsersViewmodel) {
         ) {
             itemsIndexed(users) { index, user ->
                 if (index == users.lastIndex) {
-                    viewmodel.onUserRequested()
+                    LaunchedEffect(Unit) {
+                        viewmodel.onUserRequested()
+                    }
                 }
 
                 val isOdd = index % 2 != 0 // Check if the index is odd
@@ -81,15 +93,17 @@ fun UserList(navController: NavHostController, viewmodel: UsersViewmodel) {
                 val backgroundColor = if (isOdd) Color.LightGray else Color.White
                 UserItem(user, backgroundColor) {
                     viewmodel.selectUser(user)
-                    navController.navigate(AppNavigation.NavigationItem.User.route)}
+                    navController.navigate(AppNavigation.NavigationItem.User.route)
+                }
             }
         }
+        if (showLoader) LoaderComponent()
     }
 
 }
 
-@Composable
 
+@Composable
 fun UserItem(user: User, color: Color, onClicked: (User) -> Unit) {
     Card(
         border = BorderStroke(1.dp, Color.Black),

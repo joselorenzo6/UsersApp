@@ -15,12 +15,9 @@ hiltVersion = "2.52"
 android-hilt= "1.2.0"
 gsonVersion = "2.11.0"
 corrutinesVersion = "1.7.3"
-composeLivedata = "1.7.2"
 composeCompilerVersion = "1.5.2"
 fragmentktxVersion = "1.8.3"
 coil = "2.6.0"
-
-
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,7 +29,6 @@ androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifec
 androidx-fragment-ktx = {group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentktxVersion"}
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-compose-livedata = {group = "androidx.compose.runtime", name = "runtime-livedata", version.ref= "composeLivedata"}
 androidx-compose-compiler = {group= "androidx.compose.compiler", name = "compiler", version.ref="composeCompilerVersion"}
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -49,13 +45,12 @@ hilt-plugin = {group = "com.google.dagger", name = "hilt-android-gradle-plugin",
 hilt-compiler = {group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion"}
 hilt-android-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "android-hilt" }
 hilt-android-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "android-hilt" }
-hilt-android-navigation = { group = "androidx.hilt", name = "hilt-navigation", version.ref = "android-hilt" }
-hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hiltVersion" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
 gsonConverter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitVersion" }
 corroutinesCore = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "corrutinesVersion" }
-corroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "corrutinesVersion" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
+
 
 
 [plugins]
