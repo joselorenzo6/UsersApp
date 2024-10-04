@@ -23,7 +23,8 @@ fun ToolbarComponent(
     } ?: run {
         stringResource(R.string.toolbar_title)
     }
-    TopAppBar(title = { Text(title) }, navigationIcon = {if (showBackButton && onBackClick != null) {
+    TopAppBar(title = { Text(title) }, navigationIcon = {
+        if (showBackButton && onBackClick != null) {
 
             IconButton(onClick = onBackClick) {
                 Icon(
@@ -32,6 +33,7 @@ fun ToolbarComponent(
                 )
             }
 
-    } else null})
+        } else null
+    })
 }
 

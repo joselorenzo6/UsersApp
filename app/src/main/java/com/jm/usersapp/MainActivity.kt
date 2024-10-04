@@ -12,7 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.jm.ui.navigation.AppNavigation
 import com.jm.ui.screen.UserScreen
 import com.jm.ui.viewmodel.UsersViewmodel
-import com.jm.usersapp.ui.theme.UsersAppTheme
+import com.jm.ui.theme.UsersAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +22,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            UsersAppTheme {
+            //aqui compruebo si es table o no para aplicar las dimensiones que quiera
+            //ahora mismo son las por defecto
+            UsersAppTheme(/*dimensions = largeDimensions*/) {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
