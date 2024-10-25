@@ -18,7 +18,7 @@ class UserRepositoryImpl @Inject constructor(private val userService: UserServic
             val result = userService.getUsers(page, nResults)
             emit(result.toDomain())
         }.catch {
-            emit(UserResult.Error(it.message?:""))
+            emit(UserResult.Error)
         }
         .flowOn(Dispatchers.IO)
     }

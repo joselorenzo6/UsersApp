@@ -1,5 +1,6 @@
 package com.jm.data.dto
 
+import com.jm.data.service.ServiceError
 import com.jm.domain.model.User
 import com.jm.domain.model.UserResult
 
@@ -17,6 +18,13 @@ fun NetworkResponse<UserResponse>.toDomain(): UserResult {
             )
         })
 
-        is NetworkResponse.Error -> UserResult.Error(this.message!!)
+        is NetworkResponse.Error -> {
+            if (this.error?.name == ServiceError.NO_INTERNET.name) {
+                UserResult.InternetError
+            } else {
+                UserResult.Error
+            }
+
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.jm.data.dto
 
-sealed class NetworkResponse<T>(val data: T?, val message: String?) {
+import com.jm.data.service.ServiceError
+
+sealed class NetworkResponse<T>(val data: T?, val error: ServiceError?) {
     class Success<T>(data: T) : NetworkResponse<T>(data, null)
-    class Error<T>(message: String) : NetworkResponse<T>(null, message)
+    class Error<T>(error: ServiceError) : NetworkResponse<T>(null, error)
 }

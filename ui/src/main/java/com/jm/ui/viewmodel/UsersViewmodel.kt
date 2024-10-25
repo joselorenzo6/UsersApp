@@ -16,12 +16,14 @@ import javax.inject.Inject
 class UsersViewmodel @Inject constructor(private val caseUse: GetUsersUseCase) : ViewModel() {
 
 
-    private val _users = MutableStateFlow<UserState>(UserState.Loading)
-    val users: StateFlow<UserState> = _users
+    private val _state = MutableStateFlow<UserState>(UserState.Loading)
+    val state: StateFlow<UserState> = _state
+
+
 
     private var nPage = 1
     private val nItems = 20
-    private val userList = mutableListOf<User>()
+    private var userList = mutableListOf<User>()
     var selectedUser: User? = null
         private set
 
@@ -31,18 +33,23 @@ class UsersViewmodel @Inject constructor(private val caseUse: GetUsersUseCase) :
 
     fun onUserRequested() {
         viewModelScope.launch {
-            _users.emit(UserState.Loading)
+            _state.emit(UserState.Loading)
             caseUse(nPage, nItems).collect {
                 when (it) {
-
                     is UserResult.Error -> {
-                        _users.emit(UserState.Error(it.message ?: ""))
+                        _state.emit(UserState.Error)
+                    }
+                    is UserResult.InternetError -> {
+                        _state.emit(UserState.InternetError)
                     }
                     is UserResult.Success -> {
                         nPage++
                         it.data?.let { retrievedUsers ->
-                            userList.addAll(retrievedUsers)
-                            _users.emit(UserState.Success(userList))
+                            val uniqueUsers = retrievedUsers.filterNot { newUser ->
+                                userList.any { it.email == newUser.email }
+                            }
+                            userList.addAll(uniqueUsers)
+                            _state.emit(UserState.Success(userList))
                         }
                     }
                 }
